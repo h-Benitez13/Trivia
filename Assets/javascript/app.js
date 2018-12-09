@@ -2,7 +2,7 @@
 // empty variables for correctAnswers, wrongAnswers, intervalID (to call later)
 // and finally ones where the user ran out of time
 $(document).ready();
-var time = 16;
+var time = 45;
 
 // gotta stick with what you know kid 
 var questions = {
@@ -64,7 +64,7 @@ function startGame() {
             // if the button is clicked on I want the button to disappear 
             $('button').remove('.startBtn');
             // once the button is clicked, the button and title will disappear
-            $('.titleGame').remove();
+           
 
             $('.timeLeft').show();
             $('img').remove();
@@ -121,21 +121,19 @@ function startGame() {
 
     function correctG() {
         $('.gif-image').html($('<img src="Assets/images/question_correct.gif" style="width: 300px;"/>'));
-        $('.gif-info').html("OH YEAH BITCH");
+        $('.gif-info').html('<h3>' + "ONE CORRECT!" + '</h3>');
         $('.timeLeft').hide();
-        $('.gif-image').fadeOut(3000);
-        $('.gif-info').fadeOut(3000);
-
-
-       
-
-      
+        $('.gif-image').fadeOut(7000);
+        $('.gif-info').fadeOut(7000);
     }
 
     function wrongMyDude() {
+        clearInterval(intervalID);
         $('.gif-image').html($('<img src="Assets/images/wrong.gif" style="width: 300px;" />'));
-        $('.gif-info').html('HOW COULD YOU GUESS THAT!');
-
+        $('.gif-info').html('<h3>' + "INCORRECT. DO BETTER" + '</h3>');
+        $('.timeLeft').hide();
+        $('.gif-image').fadeOut(7000);
+        $('.gif-info').fadeOut(7000);
     }
     // function specifically for options of quest1
     function questOptions() {
@@ -155,6 +153,7 @@ function startGame() {
                 correctAnswer++;
                 correctG();
                 quest2();
+                $('.timeLeft').show(3000);
 
 
             }
@@ -170,7 +169,9 @@ function startGame() {
                 $('.btnContainer').hide();
                 $('.possAns').hide();
                 wrongAnswers++;
-               wrongMyDude();             
+               wrongMyDude();
+               quest2(); 
+               $('.timeLeft').show(3000);
             }
         })
         
@@ -187,6 +188,9 @@ function startGame() {
                 $('.possAns').hide();
                 wrongAnswers++;
                wrongMyDude();
+               quest2(); 
+               $('.timeLeft').show(3000);
+
 
               
                 
@@ -204,6 +208,8 @@ function startGame() {
                 wrongAnswers++;
                 
                 wrongMyDude();
+                quest2(); 
+               $('.timeLeft').show(3000);
 
               
                 
@@ -211,9 +217,24 @@ function startGame() {
         })
 
     } 
+    function ohYas() {
+        $('.gif-again').html($('<img src="Assets/images/rock-out.gif" style="width: 300px;"/>'));
+        $('.gif-more').html('<h3>' + "ANOTHER ONE CORRECT. YAAAAASSSSS" + '</h3>');
+        $('.timeLeft').hide();
+        $('.gif-again').fadeOut(7000);
+        $('.gif-more').fadeOut(7000);
+    }
+    function oops() {
+        clearInterval(intervalID);
+        $('.gif-again').html($('<img src="Assets/images/tenor.gif" style="width: 300px;" />'));
+        $('.gif-more').html('<h3>' + "WRONG, DO YOU EVEN LIKE MUSIC?" + '</h3>');
+        $('.timeLeft').hide();
+        $('.gif-again').fadeOut(7000);
+        $('.gif-more').fadeOut(7000);
+    }
 
     function quest2() {
-        $('.quest-q2').fadeIn(3000);
+        $('.quest-q2').fadeIn(7000);
         timeCount();
         // create a new div to include the question
         var newDiv = $('<div class="quest_q2" style="font-size: 25px;">');
@@ -231,8 +252,10 @@ function startGame() {
                 console.log("false");
                 $('.quest-q2').hide();
                 wrongAnswers++;
+                oops();
+                $('.timeLeft').show(3000);
                 finalQ();
-                finalOptions();
+
 
             }
         })
@@ -244,9 +267,9 @@ function startGame() {
                 console.log("false");
                 $('.quest-q2').hide();
                 wrongAnswers++;
-
+                oops();
+                $('.timeLeft').show(3000);
                 finalQ();
-                finalOptions();
 
 
             }
@@ -261,8 +284,9 @@ function startGame() {
                 console.log("true");
                 $('.quest-q2').hide();
                 correctAnswer++;
+                ohYas();
+                $('.timeLeft').show(3000);
                 finalQ();
-                finalOptions();
 
 
             }
@@ -275,35 +299,35 @@ function startGame() {
                 console.log("false");
                 $('.quest-q2').hide();
                 wrongAnswers++;
+                oops();
+                $('.timeLeft').show(3000);
 
                 finalQ();
-                finalOptions();
 
 
             }
         })
     }
-
-
     
+  
 
     function finalQ() {
-        $('.final').show();
+        $('.final').show(4000);
         var action = $('<div class="finalQuestion" />');
         action.html($('<h1>' + "Just wakin up in the morning" + '</h1>'));
+
         $('.final').prepend(action);
-
-    }
-
-    function finalOptions() {
         $('.finA').html("now watch me whip");
         $('.finalSong').append($('.finA'));
         $('.finA').click(function () {
             if (this) {
                 console.log('false');
                 $('.final').hide();
+                
                 wrongAnswers++;
                 scoreSheet();
+                restart();
+
             }
         })
 
@@ -314,7 +338,11 @@ function startGame() {
                 console.log('false');
                 $('.final').hide();
                 wrongAnswers++;
+                
+
                 scoreSheet();
+                restart();
+
             }
         })
 
@@ -325,7 +353,10 @@ function startGame() {
                 console.log('false');
                 $('.final').hide();
                 wrongAnswers++;
+                
                 scoreSheet();
+                restart();
+
             }
         })
 
@@ -337,32 +368,43 @@ function startGame() {
                 console.log("winner");
                 correctAnswer++;
                 $('.final').hide();
+                
                 scoreSheet();
+                restart();
             }
         })
 
     }
 
    
-
-  
-
-    function scoreSheet() {
-        $('.resetBtn').show();
+    function restart() {
+        $('.resetBtn').show(4000);
         $('.resetBtn').click(function () {
-            startGame();
+            
             $('.tallySheet').remove();
+            time = 45;
             correctAnswer = 0;
             wrongAnswers = 0
             didNotAnswer = 0
+           $('button').show($('.startBtn'));
+           $('img').show(1000)
+
 
         })
+    }
+  
+
+    function scoreSheet() {
+        $('.tallySheet').show(4000);
         $('.gbye').html('WAY TO GO BIG FELLA');
         $('.timeLeft').hide();
         $('.end-gif').html($('<img src="Assets/images/end_image.gif" style="width: 300px;" />'));
+        $('.end-gif').fadeIn(4000);
         $('.correct').html("Correctly Answered: " + correctAnswer);
         $('.incorrect').html("Wrong Answers: " + wrongAnswers);
         $('.not-answered').html("Did not know: " + didNotAnswer);
+        $('.resetBtn').show(4000);
+
 
     }
     gamePlay();
