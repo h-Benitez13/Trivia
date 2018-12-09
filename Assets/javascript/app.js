@@ -46,6 +46,14 @@ console.log(questions.q1);
 
 // once the game starts everything should eventually go in'herrrr
 function startGame() {
+   
+
+    
+
+    // as the page loads, there will have the amazing title
+    // the startgame button 
+    // maybe ill add another button for motivational music but time will tell
+    function gamePlay() {
 
     $('.possAns').hide();
     $('.quest-q2').hide();
@@ -54,10 +62,6 @@ function startGame() {
     $('.timeLeft').hide();
     timeCount();
 
-    // as the page loads, there will have the amazing title
-    // the startgame button 
-    // maybe ill add another button for motivational music but time will tell
-    function gamePlay() {
         // .on("click") function for the buttons
         $('.startBtn').on('click', function () {
 
@@ -326,7 +330,6 @@ function startGame() {
                 
                 wrongAnswers++;
                 scoreSheet();
-                restart();
 
             }
         })
@@ -341,7 +344,6 @@ function startGame() {
                 
 
                 scoreSheet();
-                restart();
 
             }
         })
@@ -355,7 +357,6 @@ function startGame() {
                 wrongAnswers++;
                 
                 scoreSheet();
-                restart();
 
             }
         })
@@ -370,30 +371,14 @@ function startGame() {
                 $('.final').hide();
                 
                 scoreSheet();
-                restart();
             }
         })
 
     }
 
    
-    function restart() {
-        $('.resetBtn').show(4000);
-        $('.resetBtn').click(function () {
-            
-            $('.tallySheet').remove();
-            time = 45;
-            correctAnswer = 0;
-            wrongAnswers = 0
-            didNotAnswer = 0
-           $('button').show($('.startBtn'));
-           $('img').show(1000)
-
-
-        })
-    }
-  
-
+    
+    
     function scoreSheet() {
         $('.tallySheet').show(4000);
         $('.gbye').html('WAY TO GO BIG FELLA');
@@ -404,8 +389,15 @@ function startGame() {
         $('.incorrect').html("Wrong Answers: " + wrongAnswers);
         $('.not-answered').html("Did not know: " + didNotAnswer);
         $('.resetBtn').show(4000);
-
-
+        
+        
+        function restart() {
+            $('.resetBtn').show(4000);
+            $('.resetBtn').click(function () {
+                $('.tallySheet').hide(3000);
+                startGame();
+            })
+        }restart();
     }
     gamePlay();
 
